@@ -16,20 +16,28 @@ class SignUpForm extends Component {
     };
   }
 
-  onChangeEmail() {
-    console.log(true);
+  onChangeEmail(e) {
+    this.setState({
+      email: e.target.value,
+    });
   }
 
-  onChangePassword() {
-    console.log(true);
+  onChangePassword(e) {
+    this.setState({
+      password: e.target.value,
+    });
   }
 
-  onChangeFirstName() {
-    console.log(true);
+  onChangeFirstName(e) {
+    this.setState({
+      firstname: e.target.value,
+    });
   }
 
-  onChangeLastName() {
-    console.log(true);
+  onChangeLastName(e) {
+    this.setState({
+      lastname: e.target.value,
+    });
   }
 
   render() {
