@@ -16,6 +16,22 @@ class SignUpForm extends Component {
     };
   }
 
+  onChangeEmail() {
+    console.log(true);
+  }
+
+  onChangePassword() {
+    console.log(true);
+  }
+
+  onChangeFirstName() {
+    console.log(true);
+  }
+
+  onChangeLastName() {
+    console.log(true);
+  }
+
   render() {
     return (
       <div className="submit-form">

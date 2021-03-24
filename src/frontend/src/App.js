@@ -4,6 +4,7 @@ import SignUpForm from "./components/signUpForm.component";
 
 class App extends Component {
   state = {};
+
   render() {
     return (
       <div>
