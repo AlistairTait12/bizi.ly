@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import UserDataService from "../services/user.service";
 
 class SignUpForm extends Component {
   constructor(props) {
@@ -38,6 +39,32 @@ class SignUpForm extends Component {
     this.setState({
       lastname: e.target.value,
     });
+  }
+
+  saveUser() {
+    var data = {
+      email: this.state.email,
+      password: this.state.password,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+    };
+
+    UserDataService.create(data)
+      .then((response) => {
+        this.setState({
+          id: response.data.id,
+          email: response.data.email,
+          password: response.data.password,
+          firstname: response.data.firstname,
+          lastname: response.data.lastname,
+
+          submitted: true,
+        });
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   render() {
