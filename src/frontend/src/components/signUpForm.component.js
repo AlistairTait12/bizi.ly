@@ -52,7 +52,7 @@ class SignUpForm extends Component {
           </div>
         ) : (
           <div>
-            <div>
+            <div className="m-2">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -65,7 +65,7 @@ class SignUpForm extends Component {
               />
             </div>
 
-            <div>
+            <div className="m-2">
               <label htmlFor="password">Password</label>
               <input
                 type="password"
@@ -78,7 +78,7 @@ class SignUpForm extends Component {
               />
             </div>
 
-            <div>
+            <div className="m-2">
               <label htmlFor="firstname">First Name</label>
               <input
                 type="firstname"
@@ -91,7 +91,7 @@ class SignUpForm extends Component {
               />
             </div>
 
-            <div>
+            <div className="m-2">
               <label htmlFor="lastname">Last Name</label>
               <input
                 type="lastname"
