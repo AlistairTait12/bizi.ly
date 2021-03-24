@@ -130,6 +130,10 @@ class SignUpForm extends Component {
                 name="lastname"
               />
             </div>
+
+            <div>
+              <button onClick={this.saveUser()}>Create user</button>
+            </div>
           </div>
         )}
       </div>
