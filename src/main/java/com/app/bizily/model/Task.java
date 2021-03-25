@@ -19,19 +19,21 @@ public class Task {
     @Column(name = "completedBy")
     private String completedBy;
 
-    @Column(name = "completed")
-    private boolean completed;
-
     @Column(name = "stamp")
     private String stamp;
+
+    @Column(name = "completed")
+    private boolean completed;
 
     public Task() {
 
     }
 
-    public Task(String task, String createdOn, boolean completed) {
+    public Task(String task, String createdOn, String completedBy, String stamp, boolean completed) {
         this.task = task;
         this.createdOn = createdOn;
+        this.completedBy = completedBy;
+        this.stamp = stamp;
         this.completed = completed;
     }
 
@@ -63,14 +65,6 @@ public class Task {
         this.createdOn = createdOn;
     }
 
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean isCompleted) {
-        this.completed = isCompleted;
-    }
-
     public String getStamp() {
         return stamp;
     }
@@ -79,8 +73,16 @@ public class Task {
         this.stamp = stamp;
     }
 
+    public boolean getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
     @Override
     public String toString() {
-        return "Tutorial [id=" + id + ", task=" + task + ", createdOn=" + createdOn + ", completed=" + completed + "]";
+        return "Task [id=" + id + ", task=" + task + ", completedBy=" + completedBy + ", createdOn=" + createdOn + ", stamp=" + stamp + ", completed=" + completed + "]";
     }
 }

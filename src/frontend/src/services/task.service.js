@@ -21,9 +21,9 @@ class TaskDataService {
         return http.delete(`/tasks/${id}`);
     }
 
-    deleteAll() {
-        return http.delete(`/tasks`);
-    }
+    // deleteAll() {
+    //     return http.delete(`/tasks`);
+    // }
 
     findByTask(task) {
         return http.get(`/tasks?task=${task}`);
