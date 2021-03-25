@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
@@ -22,45 +23,39 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/users");
-    }
-
 //    @Override
 //    protected void configure(final HttpSecurity http) throws Exception {
 //        http.authorizeRequests()
-//                .antMatchers("/users")
+//                .antMatchers("/users**")
 //                .permitAll()
-//                .and()
-//                .formLogin()
-//                .permitAll()
-//                .and()
-//                .csrf()
-//                .disable();
+//                .anyRequest();
 //    }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/bower_components/**", "/*.js",
-//                        "/*.jsx", "/main.css").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .defaultSuccessUrl("/", true)
-//                .permitAll()
-//                .and()
-//                .httpBasic()
-//                .and()
-//                .csrf().disable()
-//                .logout()
-//                .logoutSuccessUrl("/");
-//    }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers( "/*.js",
+                        "/*.jsx", "/main.css").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/", true)
+                .permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .csrf().disable()
+                .logout()
+                .logoutSuccessUrl("/");
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/api/users");
+    }
 
     @Bean
     public PasswordEncoder getPasswordEncoder(){
-        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
 }

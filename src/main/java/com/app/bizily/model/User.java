@@ -65,6 +65,8 @@ public class User {
         this.lastname = lastname;
     }
 
+    private User() {}
+
     public User(String email, String username, String password, String firstname, String lastname) {
         this.email = email;
         this.username = username;
