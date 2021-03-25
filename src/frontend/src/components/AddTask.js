@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import TaskDataService from "../services/task.service"
 
 const AddTask = ({ onAdd }) => {
     const [text, setText] = useState('')
@@ -19,6 +20,23 @@ const AddTask = ({ onAdd }) => {
         setDay('')
         setReminder(false)
     }
+
+    // Testing connection here - may not work
+    TaskDataService.create(data)
+        .then((response) => {
+            this.setState({
+                id: response.data.id,
+                task: response.data.task,
+                createdOn: response.data.createdOn,
+                stamp: response.data.stamp,
+                completed: response.data.completed,
+                completedBy: response.data.completedBy,
+            });
+            console.log(response.data);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
 
     return (
         <form className='add-form' onSubmit={onSubmit}>
