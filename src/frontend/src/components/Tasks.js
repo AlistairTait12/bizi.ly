@@ -1,6 +1,6 @@
 import Task from './Task'
 
-const TasksList = ({ tasks, onDelete, onToggle }) => {
+const Tasks = ({ tasks, onDelete, onToggle }) => {
     return (
         <>
             {tasks.map((task, index) => (
@@ -10,4 +10,4 @@ const TasksList = ({ tasks, onDelete, onToggle }) => {
     )
 }
 
-export default TasksList
+export default Tasks
