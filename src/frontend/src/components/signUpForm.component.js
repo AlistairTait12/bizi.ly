@@ -48,6 +48,7 @@ class SignUpForm extends Component {
       password: this.state.password,
       firstname: this.state.firstname,
       lastname: this.state.lastname,
+      username: this.state.email,
     };
 
     UserDataService.create(data)
@@ -58,6 +59,7 @@ class SignUpForm extends Component {
           password: response.data.password,
           firstname: response.data.firstname,
           lastname: response.data.lastname,
+          username: response.data.email,
 
           submitted: true,
         });
