@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Switch, Link } from "react-router-dom";
 
+import AddTask from './components/AddTask'
+import Task from './components/Task'
+import TasksList from './components/TasksList'
+
 class App extends Component {
   render() {
     return (
