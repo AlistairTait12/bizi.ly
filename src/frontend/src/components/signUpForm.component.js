@@ -8,6 +8,7 @@ class SignUpForm extends Component {
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
     this.onChangeLastName = this.onChangeLastName.bind(this);
+    this.saveUser = this.saveUser.bind(this);
     this.state = {
       email: "",
       password: "",
