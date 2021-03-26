@@ -7,11 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RequestMapping("/api")
 public class TaskController {
 
@@ -20,6 +21,7 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public ResponseEntity<List<Task>> getTask(@RequestParam(required = false) String task) {
+        System.out.println("Hello");
         try {
             List<Task> tasks = new ArrayList<Task>();
 
@@ -28,9 +30,9 @@ public class TaskController {
 //            else
 //                taskRepository.findByTaskContaining(tasks).forEach(tasks::add);
 
-            if (tasks.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+//            if (tasks.isEmpty()) {
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            }
 
             return new ResponseEntity<>(tasks, HttpStatus.OK);
         } catch (Exception e) {
