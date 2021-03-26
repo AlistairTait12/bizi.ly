@@ -21,7 +21,6 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public ResponseEntity<List<Task>> getTask(@RequestParam(required = false) String task) {
-        System.out.println("Hello");
         try {
             List<Task> tasks = new ArrayList<Task>();
 
