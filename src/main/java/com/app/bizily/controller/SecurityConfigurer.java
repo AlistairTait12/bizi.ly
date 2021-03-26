@@ -38,7 +38,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                         "/*.jsx", "/main.css").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
+                .formLogin().loginProcessingUrl("/login")
                 .defaultSuccessUrl("/", true)
                 .permitAll()
                 .and()
