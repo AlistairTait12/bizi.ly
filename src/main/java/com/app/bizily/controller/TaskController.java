@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RestController
@@ -54,7 +53,7 @@ public class TaskController {
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         try {
             Task _task = taskRepository
-                    .save(new Task(task.getTask(), task.getCompletedBy(), task.getCreatedOn(), task.getStamp(), task.getCompleted()));
+                    .save(new Task(task.getText(), task.getDay(), task.isReminder()));
             return new ResponseEntity<>(_task, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -10,79 +10,46 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "task")
-    private String task;
+    @Column(name = "text")
+    private String text;
 
-    @Column(name = "createdOn")
-    private String createdOn;
+    @Column(name = "day")
+    private String day;
 
-    @Column(name = "completedBy")
-    private String completedBy;
-
-    @Column(name = "stamp")
-    private String stamp;
-
-    @Column(name = "completed")
-    private boolean completed;
+    @Column(name = "reminder")
+    private boolean reminder;
 
     public Task() {
 
     }
 
-    public Task(String task, String createdOn, String completedBy, String stamp, boolean completed) {
-        this.task = task;
-        this.createdOn = createdOn;
-        this.completedBy = completedBy;
-        this.stamp = stamp;
-        this.completed = completed;
+    public String getText() {
+        return text;
     }
 
-    public long getId() {
-        return id;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public String getTask() {
-        return task;
+    public String getDay() {
+        return day;
     }
 
-    public void setTask(String task) {
-        this.task = task;
+    public void setDay(String day) {
+        this.day = day;
     }
 
-    public String getCompletedBy() {
-        return completedBy;
+    public boolean isReminder() {
+        return reminder;
     }
 
-    public void setCompletedBy(String completedBy) {
-        this.completedBy = completedBy;
+    public void setReminder(boolean reminder) {
+        this.reminder = reminder;
     }
 
-    public String getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(String createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public String getStamp() {
-        return stamp;
-    }
-
-    public void setStamp(String stamp) {
-        this.stamp = stamp;
-    }
-
-    public boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    @Override
-    public String toString() {
-        return "Task [id=" + id + ", task=" + task + ", completedBy=" + completedBy + ", createdOn=" + createdOn + ", stamp=" + stamp + ", completed=" + completed + "]";
+    public Task(String text, String day, boolean reminder) {
+        this.text = text;
+        this.day = day;
+        this.reminder = reminder;
     }
 }

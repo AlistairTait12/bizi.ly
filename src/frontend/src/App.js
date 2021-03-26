@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 import About from './components/About'
+import TaskDataService from './services/task.service.js'
 
 const App = () => {
   const [showAddTask, setShowAddTask] = useState(false)
@@ -37,17 +38,25 @@ const App = () => {
 
   // Add Task
   const addTask = async (task) => {
-    const res = await fetch('http://localhost:5000/tasks', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(task),
-    })
+   await TaskDataService.create(task)
+       .then((response) => {
+         this.setState({});}).catch((e) => {console.log(e);});
 
-    const data = await res.json()
 
-    setTasks([...tasks, data])
+
+
+
+  //       const res = await fetch('http://localhost:5000/tasks', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-type': 'application/json',
+  //         },
+  //         body: JSON.stringify(task),
+  //   })
+
+    // const data = await res.json()
+    //
+    // setTasks([...tasks, data])
 
     // const id = Math.floor(Math.random() * 10000) + 1
     // const newTask = { id, ...task }
