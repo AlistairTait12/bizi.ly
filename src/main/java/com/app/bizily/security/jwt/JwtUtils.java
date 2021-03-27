@@ -18,10 +18,10 @@ public class JwtUtils {
     @Value("${bezkoder.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("86400000")
-    private Long jwtExpirationMs;
+    @Value("${bezkoder.app.jwtExpirationMs}")
+    private int jwtExpirationMs;
 
-    public String generateJwtToken(@NotNull Authentication authentication) {
+    public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
@@ -29,7 +29,6 @@ public class JwtUtils {
                 .setExpiration(new Date((new Date()).getTime() + 864000)).signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
-
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
