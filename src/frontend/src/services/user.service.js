@@ -10,11 +10,19 @@ class UserDataService {
   }
 
   create(data) {
-    return http.post("/users", data);
+    return http.post("/auth/signup", data);
   }
 
   update(id, data) {
     return http.put(`/users/${id}`, data);
+  }
+
+  login(data){
+    return http.post('auth/signin', data)
+  }
+
+  test(){
+    return http.get('/test/mod')
   }
 
   // delete(id) {

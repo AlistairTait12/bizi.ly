@@ -1,29 +1,58 @@
 package com.app.bizily.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name="users",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = "username"),
+            @UniqueConstraint(columnNames = "password")
+        })
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
+    @Email
     @Column(name = "email")
     private String email;
 
+    @NotBlank
+    @Email
     @Column(name = "username")
     private String username;
 
+    @NotBlank
     @Column(name = "password")
     private String password;
 
+    @NotBlank
     @Column(name = "firstname")
     private String firstname;
 
+    @NotBlank
     @Column(name = "lastname")
     private String lastname;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable( name= "user_roles",
+                joinColumns = @JoinColumn( name = "user_id"),
+                inverseJoinColumns = @JoinColumn( name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -65,7 +94,16 @@ public class User {
         this.lastname = lastname;
     }
 
+        public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     private User() {}
+
 
     public User(String email, String username, String password, String firstname, String lastname) {
         this.email = email;

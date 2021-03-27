@@ -1,20 +1,21 @@
 import React, { Component } from "react";
+import UserDataService from "../services/user.service";
 
 class LoginForm extends Component {
   constructor(props) {
     super(props);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.login = this.login.bind(this);
     this.state = {
-      email: "",
+      username: "",
       password: "",
     };
   }
 
-  onChangeEmail(e) {
+  onChangeUsername(e) {
     this.setState({
-      email: e.target.value,
+      username: e.target.value,
     });
   }
 
@@ -24,28 +25,38 @@ class LoginForm extends Component {
     });
   }
 
-  // login() { TODO
-  //   var data = {
-  //     email: this.state.email,
-  //   };
+  login() {
+    var data = {
+      username: this.state.username,
+      password: this.state.password,
+    };
 
-  //   UserDataService.findByEmail(data)
-  //     .then((response) => )
-  // }
+    UserDataService.login(data)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  getUser(){
+    UserDataService.test();
+  }
 
   render() {
     return (
       <div className="submit-form">
         <div className="m-2">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="username">Username/Email</label>
           <input
             type="email"
             className="form-control"
-            id="email"
+            id="username"
             required
-            value={this.state.email}
-            onChange={this.onChangeEmail}
-            name="email"
+            value={this.state.username}
+            onChange={this.onChangeUsername}
+            name="username"
           />
         </div>
         <div className="m-2">
@@ -62,6 +73,9 @@ class LoginForm extends Component {
         </div>
         <div>
           <button onClick={this.login}>Log in</button>
+        </div>
+        <div>
+          <button onClick={this.getUser}>Should only work if authed</button>
         </div>
       </div>
     );
