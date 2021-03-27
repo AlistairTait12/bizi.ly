@@ -33,7 +33,11 @@ class LoginForm extends Component {
 
     UserDataService.login(data)
       .then((response) => {
-        console.log(response)
+        console.log(response.data)
+        // we needd to store the user in local storage here?
+        // we can use the stored users token if one exists for future requests
+        // also the user data includes their id, this should help displaying tasks
+        // when we join the tables
       })
       .catch((e) => {
         console.log(e);
