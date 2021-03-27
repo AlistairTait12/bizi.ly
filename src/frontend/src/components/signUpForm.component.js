@@ -49,6 +49,7 @@ class SignUpForm extends Component {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       username: this.state.email,
+      role: ["user"]
     };
 
     UserDataService.create(data)
