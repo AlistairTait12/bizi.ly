@@ -1,4 +1,5 @@
 import http from "../http-common";
+import authHeader from "./auth.header";
 
 class UserDataService {
   // getAll() {
@@ -18,11 +19,21 @@ class UserDataService {
   }
 
   login(data){
-    return http.post('auth/signin', data)
+    return http.post('auth/signin', data).
+    then(response => {
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      return response.data;
+    });
+  }
+  
+  getCurrentUser(){
+    return JSON.parse(localStorage.getItem("user"));
   }
 
   test(){
-    return http.get('/test/mod')
+    return http.get('/test/user', { headers: authHeader()});
   }
 
   // delete(id) {
