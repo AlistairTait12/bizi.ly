@@ -1,148 +1,113 @@
-import React, { Component } from "react";
+//imports
+import React from "react";
+import { Formik, Form, useField } from "formik";
+import { TextField, Button } from "@material-ui/core";
+import * as yup from "yup";
 import UserDataService from "../services/user.service";
 
-class SignUpForm extends Component {
-  constructor(props) {
-    super(props);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.saveUser = this.saveUser.bind(this);
-    this.state = {
-      email: "",
-      password: "",
-      firstname: "",
-      lastname: "",
-      submitted: false,
-    };
-  }
+//custom hooks/ components
+const MyTextField = ({ placeholder, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
 
-  onChangeEmail(e) {
-    this.setState({
-      email: e.target.value,
-    });
-  }
+  return (
+    <TextField
+      placeholder={placeholder}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+    />
+  );
+};
 
-  onChangePassword(e) {
-    this.setState({
-      password: e.target.value,
-    });
-  }
+const MyPassword = ({ placeholder, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
 
-  onChangeFirstName(e) {
-    this.setState({
-      firstname: e.target.value,
-    });
-  }
+  return (
+    <TextField
+      type="password"
+      placeholder={placeholder}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+    />
+  );
+};
 
-  onChangeLastName(e) {
-    this.setState({
-      lastname: e.target.value,
-    });
-  }
+//yup validation schema
+const validationSchema = yup.object({
+  firstname: yup.string().required("required"),
+  lastname: yup.string().required("required"),
+  email: yup.string().email("not a valid email").required("required"),
+  password: yup
+    .string()
+    .required("required")
+    .min(10, "Password must be between 10-25 characters")
+    .max(25, "Password must be between 10-25 characters"),
+});
 
-  saveUser() {
-    var data = {
-      email: this.state.email,
-      password: this.state.password,
-      firstname: this.state.firstname,
-      lastname: this.state.lastname,
-      username: this.state.email,
-      role: ["user"]
-    };
+//form component
+const SignUpForm = () => {
+  return (
+    <div>
+      <Formik
+        initialValues={{
+          email: "",
+          firstname: "",
+          lastname: "",
+          password: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(data) => {
+          data.username = data.email;
+          data.role = ["user"];
 
-    UserDataService.create(data)
-      .then((response) => {
-        this.setState({
-          id: response.data.id,
-          email: response.data.email,
-          password: response.data.password,
-          firstname: response.data.firstname,
-          lastname: response.data.lastname,
-          username: response.data.email,
-
-          submitted: true,
-        });
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
-  render() {
-    return (
-      <div className="submit-form">
-        {this.state.submitted ? (
-          <div>
-            <h4>Successfully registered!</h4>
-            <button className="btn btn-dark" onClick={this.newUser}>
-              OK
-            </button>
-          </div>
-        ) : (
-          <div>
-            <div className="m-2">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                required
-                value={this.state.email}
-                onChange={this.onChangeEmail}
-                name="email"
-              />
-            </div>
-
-            <div className="m-2">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                required
-                value={this.state.password}
-                onChange={this.onChangePassword}
-                name="password"
-              />
-            </div>
-
-            <div className="m-2">
-              <label htmlFor="firstname">First Name</label>
-              <input
-                type="firstname"
-                className="form-control"
-                id="firstname"
-                required
-                value={this.state.firstname}
-                onChange={this.onChangeFirstName}
-                name="firstname"
-              />
-            </div>
-
-            <div className="m-2">
-              <label htmlFor="lastname">Last Name</label>
-              <input
-                type="lastname"
-                className="form-control"
-                id="lastname"
-                required
-                value={this.state.lastname}
-                onChange={this.onChangeLastName}
-                name="lastname"
-              />
-            </div>
-
+          UserDataService.create(data);
+        }}
+      >
+        {({ values, errors }) => (
+          <Form>
             <div>
-              <button onClick={this.saveUser}>Create user</button>
+              <MyTextField
+                placeholder="first name"
+                name="firstname"
+                type="input"
+                as={TextField}
+              ></MyTextField>
             </div>
-          </div>
+            <div>
+              <MyTextField
+                placeholder="last name"
+                name="lastname"
+                type="input"
+                as={TextField}
+              ></MyTextField>
+            </div>
+            <div>
+              <MyTextField
+                placeholder="email@domain.com"
+                name="email"
+                type="input"
+                as={TextField}
+              ></MyTextField>
+            </div>
+            <div>
+              <MyPassword
+                placeholder="password"
+                name="password"
+                type="password"
+                as={TextField}
+              ></MyPassword>
+            </div>
+            <div>
+              <Button type="submit">submit</Button>
+            </div>
+          </Form>
         )}
-      </div>
-    );
-  }
-}
+      </Formik>
+    </div>
+  );
+};
 
 export default SignUpForm;

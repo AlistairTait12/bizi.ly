@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginForm from "./components/loginForm.component";
-import SignupForm from "./components/signUpForm2.component";
+import SignUpForm from "./components/signUpForm.component";
 
 class App extends Component {
   state = {};
