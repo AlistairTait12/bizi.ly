@@ -31,7 +31,7 @@ class UserDataService {
       }
       return response.data;
     });
-  }
+
 
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
