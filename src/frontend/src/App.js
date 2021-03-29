@@ -4,10 +4,8 @@ import LoginForm from "./components/loginForm2.component";
 import SignUpForm from "./components/signUpForm.component";
 import UserDataService from "./services/user.service";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-{
-  /* <nav className="navbar navbar-dark bg-dark"> */
-}
 
+// need to get this to work. Possibly setState or something
 const LogOut = () => {
   if (localStorage.length > 0) {
     return (
