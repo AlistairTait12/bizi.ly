@@ -18,14 +18,12 @@ class UserDataService {
     return http.put(`/users/${id}`, data);
   }
 
-  login(data){
-    return http.post('auth/signin', data).
-    then(response => {
-      if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
-      return response.data;
-    });
+  async login(data){
+    const response = await http.post('auth/signin', data);
+    if (response.data.accessToken) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return response.data;
   }
   
   getCurrentUser(){

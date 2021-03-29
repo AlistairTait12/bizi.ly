@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-dark bg-dark">ROCK THE NAVBARRR</nav>
-        <LoginForm />
+        <SignUpForm />
       </div>
     );
   }
