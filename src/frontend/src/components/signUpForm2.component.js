@@ -1,0 +1,130 @@
+//imports
+import React from "react";
+import {
+  Formik,
+  Field,
+  Form,
+  useField,
+  FieldAttributes,
+  FieldArray,
+} from "formik";
+import {
+  TextField,
+  Button,
+  Checkbox,
+  Radio,
+  FormControlLabel,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
+import * as yup from "yup";
+import UserDataService from "../services/user.service";
+
+//custom hooks/ components
+const MyTextField = ({ placeholder, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+
+  return (
+    <TextField
+      placeholder={placeholder}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+    />
+  );
+};
+
+const MyPassword = ({ placeholder, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+
+  return (
+    <TextField
+      type="password"
+      placeholder={placeholder}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+    />
+  );
+};
+
+//yup validation schema
+const validationSchema = yup.object({
+  firstname: yup.string().required("required"),
+  lastname: yup.string().required("required"),
+  email: yup.string().email("not a valid email").required("required"),
+  password: yup
+    .string()
+    .required("required")
+    .min(10, "Password must be between 10-25 characters")
+    .max(25, "Password must be between 10-25 characters"),
+});
+
+//form component
+const SignUpForm = () => {
+  return (
+    <div>
+      <Formik
+        initialValues={{
+          email: "",
+          firstname: "",
+          lastname: "",
+          password: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(data) => {
+          data.username = data.email;
+          data.role = ["user"];
+
+          UserDataService.create(data);
+        }}
+      >
+        {({ values, errors }) => (
+          <Form>
+            <div>
+              <MyTextField
+                placeholder="first name"
+                name="firstname"
+                type="input"
+                as={TextField}
+              ></MyTextField>
+            </div>
+            <div>
+              <MyTextField
+                placeholder="last name"
+                name="lastname"
+                type="input"
+                as={TextField}
+              ></MyTextField>
+            </div>
+            <div>
+              <MyTextField
+                placeholder="email@domain.com"
+                name="email"
+                type="input"
+                as={TextField}
+              ></MyTextField>
+            </div>
+            <div>
+              <MyPassword
+                placeholder="password"
+                name="password"
+                type="password"
+                as={TextField}
+              ></MyPassword>
+            </div>
+            <div>
+              <Button type="submit">submit</Button>
+            </div>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+
+export default SignUpForm;

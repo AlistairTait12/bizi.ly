@@ -11,29 +11,34 @@ class UserDataService {
   }
 
   create(data) {
-    return http.post("/auth/signup", data);
+    return http.post("/auth/signup", data).then((response) => {
+      if (response.data.message === "User registered successfully!") {
+        this.login(data);
+      } else {
+        return response.data.message;
+      }
+    });
   }
 
   update(id, data) {
     return http.put(`/users/${id}`, data);
   }
 
-  login(data){
-    return http.post('auth/signin', data).
-    then(response => {
+  login(data) {
+    return http.post("auth/signin", data).then((response) => {
       if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
       return response.data;
     });
   }
-  
-  getCurrentUser(){
+
+  getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
   }
 
-  test(){
-    return http.get('/test/user', { headers: authHeader()});
+  test() {
+    return http.get("/test/user", { headers: authHeader() });
   }
 
   // delete(id) {
