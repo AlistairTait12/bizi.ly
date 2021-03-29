@@ -34,14 +34,8 @@ const MyPassword = ({ placeholder, ...props }) => {
 };
 
 const validationSchema = yup.object({
-  firstname: yup.string().required("required"),
-  lastname: yup.string().required("required"),
   email: yup.string().email("not a valid email").required("required"),
-  password: yup
-    .string()
-    .required("required")
-    .min(10, "Password must be between 10-25 characters")
-    .max(25, "Password must be between 10-25 characters"),
+  password: yup.string().required("required"),
 });
 
 const LoginForm = () => {
@@ -51,6 +45,8 @@ const LoginForm = () => {
         initialValues={{ email: "", password: "" }}
         validationSchema={validationSchema}
         onSubmit={(data) => {
+          data.username = data.email;
+          // console.log(data);
           UserDataService.login(data);
         }}
       >
