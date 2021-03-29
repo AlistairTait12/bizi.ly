@@ -43,8 +43,7 @@ const App = () => {
     await TaskDataService.create(task)
       .then((response) => {
           const updatedTasks = [...tasks];
-          updatedTasks.push(response.data);
-        setTasks(updatedTasks);
+          setTasks([...tasks, response.data]);
       })
       .catch((e) => {
         console.log(e);
