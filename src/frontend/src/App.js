@@ -67,14 +67,31 @@ const App = () => {
 
   // Delete Task
   const deleteTask = async (id) => {
-    const res = await fetch(`http://localhost:8080/api/tasks/${id}`, {
-      method: "DELETE",
-    });
-    //We should control the response status to decide if we will change the state or not.
-    res.status === 200
-      ? setTasks(tasks.filter((task) => task.id !== id))
-      : alert("Error Deleting This Task");
-  };
+    await TaskDataService.delete(id)
+        .then((response) => {
+              setTasks(tasks.filter((task) => task.id !== id))
+
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+  }
+
+
+
+
+
+
+
+  // const deleteTask = async (id) => {
+  //   const res = await fetch(`http://localhost:8080/api/tasks/${id}`, {
+  //     method: "DELETE",
+  //   });
+  //   //We should control the response status to decide if we will change the state or not.
+  //   res.status === 200
+  //     ? setTasks(tasks.filter((task) => task.id !== id))
+  //     : alert("Error Deleting This Task");
+  // };
 
   // Toggle Reminder
   const toggleReminder = async (id) => {

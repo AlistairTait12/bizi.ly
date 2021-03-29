@@ -23,6 +23,10 @@ public class Task {
 
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getText() {
         return text;
     }
@@ -47,7 +51,8 @@ public class Task {
         this.reminder = reminder;
     }
 
-    public Task(String text, String day, boolean reminder) {
+    public Task(long id, String text, String day, boolean reminder) {
+        this.id = id;
         this.text = text;
         this.day = day;
         this.reminder = reminder;

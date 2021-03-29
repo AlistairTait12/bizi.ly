@@ -44,7 +44,7 @@ public class TaskController {
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         try {
             Task _task = taskRepository
-                    .save(new Task(task.getText(), task.getDay(), task.isReminder()));
+                    .save(new Task(task.getId(), task.getText(), task.getDay(), task.isReminder()));
             return new ResponseEntity<>(_task, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,15 +68,15 @@ public class TaskController {
 //        }
 //    }
 //
-//    @DeleteMapping("/tasks/{id}")
-//    public ResponseEntity<HttpStatus> deleteTask(@PathVariable("id") long id) {
-//        try {
-//            taskRepository.deleteById(id);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @DeleteMapping("/tasks/{id}")
+    public ResponseEntity<HttpStatus> deleteTask(@PathVariable("id") long id) {
+        try {
+            taskRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 //
 //    @DeleteMapping("/tasks")
 //    public ResponseEntity<HttpStatus> deleteAllTasks() {
