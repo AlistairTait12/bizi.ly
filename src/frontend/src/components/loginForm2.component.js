@@ -45,7 +45,41 @@ const validationSchema = yup.object({
 });
 
 const LoginForm = () => {
-  return(
-    
-  )
-}
+  return (
+    <div>
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        validationSchema={validationSchema}
+        onSubmit={(data) => {
+          UserDataService.login(data);
+        }}
+      >
+        {({ values, errors }) => (
+          <Form>
+            <div>
+              <MyTextField
+                placeholder="email@domain.com"
+                name="email"
+                type="input"
+                as={TextField}
+              ></MyTextField>
+            </div>
+            <div>
+              <MyPassword
+                placeholder="password"
+                name="password"
+                type="password"
+                as={TextField}
+              ></MyPassword>
+            </div>
+            <div>
+              <Button type="submit">submit</Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+
+export default LoginForm;
