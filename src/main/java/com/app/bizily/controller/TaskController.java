@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +19,10 @@ public class TaskController {
     TaskRepository taskRepository;
 
     @GetMapping("/tasks")
-    public ResponseEntity<List<Task>> getTask(@RequestParam(required = false) String task) {
+    public ResponseEntity<List<Task>> getAllTutorials(@RequestParam(required = false) String task) {
         try {
-            List<Task> tasks = new ArrayList<Task>();
-
-            if (tasks == null)
-                taskRepository.findAll().forEach(tasks::add);
-//            else
-//                taskRepository.findByTaskContaining(tasks).forEach(tasks::add);
-
-//            if (tasks.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-
+            List<Task> tasks = new ArrayList<>();
+            tasks.addAll(taskRepository.findAll());
             return new ResponseEntity<>(tasks, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -22,8 +22,8 @@ const App = () => {
 
   // Fetch Tasks
   const fetchTasks = async () => {
-    const res = await fetch('http://localhost:8080/api/tasks')
-    const data = await res.json()
+    // const res = await fetch('http://localhost:8080/api/tasks')
+    const data = await TaskDataService.getAll();
 
     return data
   }
@@ -40,7 +40,7 @@ const App = () => {
   const addTask = async (task) => {
    await TaskDataService.create(task)
        .then((response) => {
-         this.setState({});}).catch((e) => {console.log(e);});
+         setTasks([...tasks, response]);}).catch((e) => {console.log(e);});
 
 
 
