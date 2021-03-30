@@ -69,7 +69,7 @@ const LoginForm = () => {
               ></MyPassword>
             </div>
             <div>
-              <Button type="submit">submit</Button>
+              <Button type="submit">Log In</Button>
             </div>
           </Form>
         )}
