@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Tasks from "./components/Tasks";
-import AddTask from "./components/AddTask";
-import About from "./components/About";
-import TaskDataService from "./services/task.service.js";
+import Header from "./Header";
+import Footer from "./Footer";
+import Tasks from "./Tasks";
+import AddTask from "./AddTask";
+import About from "./About";
+import TaskDataService from "../services/task.service.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const TaskBuilder = () => {
@@ -15,7 +15,7 @@ const TaskBuilder = () => {
   useEffect(() => {
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks();
-      console.log(fetchTasks())
+      console.log(fetchTasks());
       setTasks(tasksFromServer);
     };
 
@@ -38,24 +38,22 @@ const TaskBuilder = () => {
   const addTask = async (task) => {
     await TaskDataService.create(task)
       .then((response) => {
-          setTasks([...tasks, response.data]);
+        setTasks([...tasks, response.data]);
       })
       .catch((e) => {
         console.log(e);
       });
-
   };
 
   const deleteTask = async (id) => {
     await TaskDataService.delete(id)
-        .then((response) => {
-              setTasks(tasks.filter((task) => task.id !== id))
-
-        })
-        .catch((e) => {
-          console.log(e);
-        })
-  }
+      .then((response) => {
+        setTasks(tasks.filter((task) => task.id !== id));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const toggleReminder = async (id) => {
     const taskToToggle = await fetchTask(id);
@@ -86,7 +84,7 @@ const TaskBuilder = () => {
           showAdd={showAddTask}
         />
         <Route
-          path="/"
+          path="/tasks"
           exact
           render={(props) => (
             <>
@@ -105,7 +103,7 @@ const TaskBuilder = () => {
         />
         <Route path="/about" component={About} />
         <Footer />
-        </div>
+      </div>
     </Router>
   );
 };

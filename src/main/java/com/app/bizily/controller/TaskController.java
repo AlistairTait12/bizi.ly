@@ -5,6 +5,7 @@ import com.app.bizily.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class TaskController {
     TaskRepository taskRepository;
 
     @GetMapping("/tasks")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<Task>> getAllTutorials(@RequestParam(required = false) String task) {
         try {
             List<Task> tasks = new ArrayList<>();
@@ -41,6 +43,7 @@ public class TaskController {
 //    }
 
     @PostMapping("/tasks")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         try {
             Task _task = taskRepository
