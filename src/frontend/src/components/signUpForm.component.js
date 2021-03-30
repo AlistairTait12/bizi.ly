@@ -45,6 +45,10 @@ const validationSchema = yup.object({
     .required("required")
     .min(10, "Password must be between 10-25 characters")
     .max(25, "Password must be between 10-25 characters"),
+  confirmPassword: yup
+    .string()
+    .required("required")
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
 //form component
@@ -57,6 +61,7 @@ const SignUpForm = () => {
           firstname: "",
           lastname: "",
           password: "",
+          confirmPassword: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(data) => {
@@ -96,6 +101,14 @@ const SignUpForm = () => {
               <MyPassword
                 placeholder="password"
                 name="password"
+                type="password"
+                as={TextField}
+              ></MyPassword>
+            </div>
+            <div>
+              <MyPassword
+                placeholder="confirm password"
+                name="confirmPassword"
                 type="password"
                 as={TextField}
               ></MyPassword>
