@@ -9,6 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface AchievementRepository extends JpaRepository<Achievement, Long> {
-    List<Achievement> findByUserId(long userid);
 
 }

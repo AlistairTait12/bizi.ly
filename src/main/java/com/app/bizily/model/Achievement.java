@@ -1,13 +1,12 @@
 package com.app.bizily.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="achievements",
-        uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
-})
+@Table(name="achievements")
 public class Achievement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,14 +14,16 @@ public class Achievement {
 
     @NotBlank
     @Column(name = "name")
+    //@JsonProperty("name")
     private String name;
 
-    @NotBlank
-    @Column(name = "userId")
+    @Column(name = "userid")
+    //@JsonProperty("userid")
     private long userid;
 
     @NotBlank
     @Column(name = "badge")
+    //@JsonProperty("badge")
     private String badge;
 
     public Achievement() {}
