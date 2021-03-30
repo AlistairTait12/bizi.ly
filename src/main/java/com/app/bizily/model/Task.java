@@ -19,6 +19,9 @@ public class Task {
     @Column(name = "reminder")
     private boolean reminder;
 
+    @Column(name = "complete")
+    private boolean complete;
+
     public Task() {
 
     }
@@ -51,10 +54,20 @@ public class Task {
         this.reminder = reminder;
     }
 
-    public Task(long id, String text, String day, boolean reminder) {
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+
+    }
+
+    public Task(long id, String text, String day, boolean reminder, boolean complete) {
         this.id = id;
         this.text = text;
         this.day = day;
         this.reminder = reminder;
+        this.complete = complete;
     }
 }

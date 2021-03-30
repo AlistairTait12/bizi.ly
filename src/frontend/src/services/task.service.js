@@ -18,6 +18,10 @@ class TaskDataService {
     return http.put(`/tasks/${id}`, { headers: authHeader() }, data);
   }
 
+  complete(id, data) {
+    return http.put(`/tasks/${id}`, { headers: authHeader() }, data);
+  }
+
   delete(id) {
     return http.delete(`/tasks/${id}`, { headers: authHeader() });
   }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import Tasks from "./Tasks";
@@ -55,6 +55,17 @@ const TaskBuilder = () => {
       });
   };
 
+  const completeTask = async (id) => {
+    await TaskDataService.complete(id)
+      .then((response) => {
+        setTasks(tasks.filter((task) => task.id !== id));
+
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const toggleReminder = async (id) => {
     const taskToToggle = await fetchTask(id);
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
@@ -78,7 +89,7 @@ const TaskBuilder = () => {
 
   return (
     <Router>
-      <div className="container">
+      <div className="ucontainer">
         <Header
           onAdd={() => setShowAddTask(!showAddTask)}
           showAdd={showAddTask}
@@ -92,6 +103,7 @@ const TaskBuilder = () => {
               {tasks.length > 0 ? (
                 <Tasks
                   tasks={tasks}
+                  onComplete={completeTask}
                   onDelete={deleteTask}
                   onToggle={toggleReminder}
                 />

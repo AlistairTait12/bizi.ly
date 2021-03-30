@@ -1,4 +1,5 @@
 import { useState } from 'react'
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 const AddTask = ({ onAdd }) => {
     const [text, setText] = useState('')
@@ -24,7 +25,7 @@ const AddTask = ({ onAdd }) => {
 
     return (
         <form className='add-form' onSubmit={onSubmit}>
-            <div className='form-control'>
+            <div className='uform-control'>
                 <label>Task</label>
                 <input
                     type='text'
@@ -33,7 +34,7 @@ const AddTask = ({ onAdd }) => {
                     onChange={(e) => setText(e.target.value)}
                 />
             </div>
-            <div className='form-control'>
+            <div className='uform-control'>
                 <label>Day & Time</label>
                 <input
                     type='text'
@@ -42,7 +43,7 @@ const AddTask = ({ onAdd }) => {
                     onChange={(e) => setDay(e.target.value)}
                 />
             </div>
-            <div className='form-control form-control-check'>
+            <div className='uform-control uform-control-check'>
                 <label>Set Reminder</label>
                 <input
                     type='checkbox'
@@ -52,7 +53,7 @@ const AddTask = ({ onAdd }) => {
                 />
             </div>
 
-            <input type='submit' value='Save Task' className='btn btn-block' />
+            <input type='submit' value='Save Task' className='butn butn-block' />
         </form>
     )
 }
