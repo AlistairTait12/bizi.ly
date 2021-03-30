@@ -11,7 +11,7 @@ class TaskDataService {
   }
 
   create(data) {
-    return http.post("/tasks", { headers: authHeader() }, data);
+    return http.post("/tasks", data, { headers: authHeader() });
   }
 
   update(id, data) {
