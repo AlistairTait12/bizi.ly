@@ -3,7 +3,7 @@ import UserDataService from "./services/user.service";
 import LoginForm from "./components/loginForm.component";
 import SignUpForm from "./components/signUpForm.component";
 import TaskBuilder from "./components/TaskBuilder";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 const LogOut = () => {
   if (localStorage.length > 0) {
