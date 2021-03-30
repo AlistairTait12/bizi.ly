@@ -19,7 +19,7 @@ public class Achievement {
 
     @NotBlank
     @Column(name = "userId")
-    private long userId;
+    private long userid;
 
     @NotBlank
     @Column(name = "badge")
@@ -27,9 +27,9 @@ public class Achievement {
 
     public Achievement() {}
 
-    public Achievement(@NotBlank String name, long userId, @NotBlank String badge) {
+    public Achievement(@NotBlank String name, long userid, @NotBlank String badge) {
         this.name = name;
-        this.userId = userId;
+        this.userid = userid;
         this.badge = badge;
     }
 
@@ -58,10 +58,10 @@ public class Achievement {
     }
 
     public long getUserId() {
-        return userId;
+        return userid;
     }
 
     public void setUserId(long usedId) {
-        this.userId = usedId;
+        this.userid = usedId;
     }
 }

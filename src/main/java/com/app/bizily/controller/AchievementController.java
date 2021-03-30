@@ -2,10 +2,14 @@ package com.app.bizily.controller;
 
 import com.app.bizily.model.Achievement;
 import com.app.bizily.repository.AchievementRepository;
+import com.app.bizily.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +22,7 @@ public class AchievementController {
     @Autowired
     AchievementRepository achievementRepository;
 
-    private int completedTasks;
-
-    // method that checks the task database for a given user and gets
+        // method that checks the task database for a given user and gets
     // the total amount of completed tasks, sets completedTasks and then
     // goes through a list of switch statements that check if the total matches
     // if the total matches, add an entry to the achievements database with the
@@ -44,53 +46,33 @@ public class AchievementController {
     @GetMapping ("/ctask")
     public ResponseEntity<Integer> ctaskcheck() {
         Integer a = achievementRepository.findAll().size();
-        a = 123;
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         return new ResponseEntity<>(a, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Achievement>> achievementCheck(@PathVariable("id") long id) {
-        // does this actually need to return an Entity? It probably just needs the user id
-        // so maybe this can be void - not sure path variable will be usable either.
+    public void achievementCheck(@AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
 
-        completedTasks = achievementRepository.findByUserId(id).size();
-        // what I want this to do is search the achievement database by the userid, generate a list
-        // of all those items, and then set completedTasks to equal the size of that list
-        // I think that id might need to be userid though
+        int completedTasks = achievementRepository.findAll().size();
 
         switch(completedTasks) {
             case 1:
-                // create an entry in the achievements database for the achievement for one completed task
-                try {
-                    // not sure the new achievement needs to be declared and then get's, maybe just put it straight into the
-                    // save
-                    Achievement achievement = new Achievement("Gettin Bizi With It!",
-                            id,
-                            "/src/frontend/badges/bizi_ach.png");
-                     achievementRepository
-                            .save(new Achievement(achievement.getName(), achievement.getUserId(), achievement.getBadge()));
-                } catch (Exception e) {
-                    return null;
-                }
+                achievementRepository
+                        .save(new Achievement("Gettin Bizi With It!",
+                                                userDetails.getId(),
+                                        "/src/frontend/badges/bizi_ach.png"));
                 break;
-            case 5:
-                // create an entry in the achievements database for the achievement for one completed task
-                try {
-                    Achievement achievement = new Achievement("In the pipe, 5 by 5!",
-                            id,
-                            "/src/frontend/badges/five_ach.png");
-                    achievementRepository
-                            .save(new Achievement(achievement.getName(), achievement.getUserId(), achievement.getBadge()));
-                } catch (Exception e) {
-                    return null;
-                }
+             case 5:
+                achievementRepository
+                        .save(new Achievement("In the pipe, 5 by 5!",
+                                                userDetails.getId(),
+                                        "/src/frontend/badges/five_ach.png"));
+
                 break;
             default:
                 break;
         }
-
-        // if this is void this can be removed - pretty sure no return is required for this
-        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
 
     @GetMapping("/{id}")
