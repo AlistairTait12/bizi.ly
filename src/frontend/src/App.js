@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LoginForm from "./components/loginForm2.component";
+import LoginForm from "./components/loginForm.component";
 import SignUpForm from "./components/signUpForm.component";
 import UserDataService from "./services/user.service";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";

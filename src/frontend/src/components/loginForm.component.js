@@ -1,79 +1,81 @@
-import React, { Component } from "react";
+import React from "react";
+import { Formik, Form, useField } from "formik";
+import { TextField, Button } from "@material-ui/core";
+import * as yup from "yup";
 import UserDataService from "../services/user.service";
 
-class LoginForm extends Component {
-  constructor(props) {
-    super(props);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.login = this.login.bind(this);
-    this.state = {
-      username: "",
-      password: "",
-    };
-  }
+const MyTextField = ({ placeholder, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
 
-  onChangeUsername(e) {
-    this.setState({
-      username: e.target.value,
-    });
-  }
+  return (
+    <TextField
+      placeholder={placeholder}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+    />
+  );
+};
 
-  onChangePassword(e) {
-    this.setState({
-      password: e.target.value,
-    });
-  }
+const MyPassword = ({ placeholder, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
 
-  login() {
-    var data = {
-      username: this.state.username,
-      password: this.state.password,
-    };
+  return (
+    <TextField
+      type="password"
+      placeholder={placeholder}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+    />
+  );
+};
 
-    UserDataService.login(data)
-  }
+const validationSchema = yup.object({
+  email: yup.string().email("not a valid email").required("required"),
+  password: yup.string().required("required"),
+});
 
-  getUser(){
-    UserDataService.test();
-  }
-
-  render() {
-    return (
-      <div className="submit-form">
-        <div className="m-2">
-          <label htmlFor="username">Username/Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="username"
-            required
-            value={this.state.username}
-            onChange={this.onChangeUsername}
-            name="username"
-          />
-        </div>
-        <div className="m-2">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            required
-            value={this.state.password}
-            onChange={this.onChangePassword}
-            name="password"
-          />
-        </div>
-        <div>
-          <button onClick={this.login}>Log in</button>
-        </div>
-        <div>
-          <button onClick={this.getUser}>Should only work if authed</button>
-        </div>
-      </div>
-    );
-  }
-}
+const LoginForm = () => {
+  return (
+    <div>
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        validationSchema={validationSchema}
+        onSubmit={(data) => {
+          data.username = data.email;
+          // console.log(data);
+          UserDataService.login(data);
+        }}
+      >
+        {({ values, errors }) => (
+          <Form>
+            <div>
+              <MyTextField
+                placeholder="email@domain.com"
+                name="email"
+                type="input"
+                as={TextField}
+              ></MyTextField>
+            </div>
+            <div>
+              <MyPassword
+                placeholder="password"
+                name="password"
+                type="password"
+                as={TextField}
+              ></MyPassword>
+            </div>
+            <div>
+              <Button type="submit">Log In</Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
 
 export default LoginForm;
