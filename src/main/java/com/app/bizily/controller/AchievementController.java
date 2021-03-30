@@ -5,6 +5,7 @@ import com.app.bizily.repository.AchievementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,14 @@ public class AchievementController {
     //
     // This method will get called when the user does something that could trigger
     // an achievement - maybe just completing a task initially.
+
+    @GetMapping ("/ctask")
+    public ResponseEntity<Integer> ctaskcheck() {
+        Integer a = achievementRepository.findAll().size();
+        a = 123;
+
+        return new ResponseEntity<>(a, HttpStatus.OK);
+    }
 
     public ResponseEntity<List<Achievement>> achievementCheck(@PathVariable("id") long id) {
         // does this actually need to return an Entity? It probably just needs the user id
@@ -80,11 +89,12 @@ public class AchievementController {
                 break;
         }
 
-
+        // if this is void this can be removed - pretty sure no return is required for this
         return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Achievement> getAchievementsByUserId(@PathVariable("userid") long userid) {
         Optional<Achievement> achievementData = achievementRepository.findById(userid);
 

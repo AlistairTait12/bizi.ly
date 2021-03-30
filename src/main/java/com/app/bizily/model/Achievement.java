@@ -25,6 +25,8 @@ public class Achievement {
     @Column(name = "badge")
     private String badge;
 
+    public Achievement() {}
+
     public Achievement(@NotBlank String name, long userId, @NotBlank String badge) {
         this.name = name;
         this.userId = userId;
