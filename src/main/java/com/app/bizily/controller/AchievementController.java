@@ -5,16 +5,14 @@ import com.app.bizily.repository.AchievementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping
+@RequestMapping("api/achievements")
 public class AchievementController {
     @Autowired
     AchievementRepository achievementRepository;
@@ -43,8 +41,8 @@ public class AchievementController {
     // an achievement - maybe just completing a task initially.
 
     public ResponseEntity<List<Achievement>> achievementCheck(@PathVariable("id") long id) {
-        // does this actually need to return a HTTP status? It probably just needs the user id
-        // so maybe this can be void
+        // does this actually need to return an Entity? It probably just needs the user id
+        // so maybe this can be void - not sure path variable will be usable either.
 
         completedTasks = achievementRepository.findByUserId(id).size();
         // what I want this to do is search the achievement database by the userid, generate a list
@@ -55,6 +53,8 @@ public class AchievementController {
             case 1:
                 // create an entry in the achievements database for the achievement for one completed task
                 try {
+                    // not sure the new achievement needs to be declared and then get's, maybe just put it straight into the
+                    // save
                     Achievement achievement = new Achievement("Gettin Bizi With It!",
                             id,
                             "/src/frontend/badges/bizi_ach.png");
@@ -82,6 +82,14 @@ public class AchievementController {
 
 
         return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Achievement> getAchievementsByUserId(@PathVariable("userid") long userid) {
+        Optional<Achievement> achievementData = achievementRepository.findById(userid);
+
+        return achievementData.map(achievement -> new ResponseEntity<>(achievement, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 
