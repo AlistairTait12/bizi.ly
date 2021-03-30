@@ -1,7 +1,7 @@
 //imports
 import React from "react";
 import { Formik, Form, useField } from "formik";
-import { Input} from 'antd';
+import { TextField, Button } from "@material-ui/core";
 // import { TextField, Button } from "@material-ui/core";
 import * as yup from "yup";
 import UserDataService from "../services/user.service";
@@ -12,7 +12,7 @@ const MyTextField = ({ placeholder, ...props }) => {
   const errorText = meta.error && meta.touched ? meta.error : "";
 
   return (
-    <Input
+    <TextField
       placeholder={placeholder}
       {...field}
       helperText={errorText}
@@ -26,7 +26,7 @@ const MyPassword = ({ placeholder, ...props }) => {
   const errorText = meta.error && meta.touched ? meta.error : "";
 
   return (
-    <Input
+    <TextField
       type="password"
       placeholder={placeholder}
       {...field}
