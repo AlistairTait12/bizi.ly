@@ -29,8 +29,8 @@ const App = () => {
     setUser(true);
   };
 
-  const handleLogout = (e) => {
-    e.preventDefault();
+  const handleLogout = () => {
+    // e.preventDefault();
     setUser(false);
   };
 
@@ -42,7 +42,14 @@ const App = () => {
             <Link to="/log_in">Log in</Link>
             <Link to="/sign_up">Sign Up</Link>
             <Link to="/tasks">Tasks</Link>
-            {/* <LogOut /> */}
+            <Button
+              onClick={() => {
+                UserDataService.logout();
+                handleLogout();
+              }}
+            >
+              Log out
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
