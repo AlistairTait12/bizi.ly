@@ -12,7 +12,6 @@ import com.app.bizily.repository.RoleRepository;
 import com.app.bizily.repository.UserRepository;
 import com.app.bizily.security.jwt.JwtUtils;
 import com.app.bizily.security.services.UserDetailsImpl;
-import com.app.bizily.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
