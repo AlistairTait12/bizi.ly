@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Header from "./Header";
 import Tasks from "./Tasks";
-import AddTask from "./AddTask";
+import AddTask from "./AddTask2";
 import TaskDataService from "../services/task.service.js";
-
 
 const TaskBuilder = () => {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -33,8 +32,8 @@ const TaskBuilder = () => {
     return data;
   };
 
-  const addTask = async (task) => {
-    await TaskDataService.create(task)
+  const addTask = async (data) => {
+    await TaskDataService.create(data)
       .then((response) => {
         setTasks([...tasks, response.data]);
       })

@@ -3,7 +3,7 @@ import authHeader from "./auth.header";
 
 class TaskDataService {
   getAll() {
-    return http.get("/tasks", { headers: authHeader() });
+    return http.get("/tasks/currentuser", { headers: authHeader() });
   }
 
   get(id) {
@@ -11,7 +11,7 @@ class TaskDataService {
   }
 
   create(data) {
-    return http.post("/tasks", data, { headers: authHeader() });
+    return http.post("/tasks/add", data, { headers: authHeader() });
   }
 
   update(id, data) {
