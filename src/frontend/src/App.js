@@ -7,6 +7,7 @@ import { AppBar, Button, Toolbar, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useState, useEffect } from "react";
+import "fontsource-roboto";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 const useStyles = makeStyles({
@@ -17,14 +18,14 @@ const useStyles = makeStyles({
     color: "white",
     height: 48,
     fontFamily: "arial",
-    verticalAlign: "center"
+    verticalAlign: "center",
   },
   toolbar: {
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   button: {
-    color: 'white',
-  }
+    color: "white",
+  },
 });
 
 const App = () => {
@@ -33,7 +34,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.length > 0 ? handleLogin() : handleLogout();
-  })
+  });
   const handleLogin = () => {
     // e.preventDefault();
     setUser(true);
@@ -47,15 +48,21 @@ const App = () => {
   return (
     <Router>
       <div>
-
-          <AppBar className={classes.root} position="fixed" position="sticky">
-
+        <AppBar className={classes.root} position="fixed" position="sticky">
           <Toolbar className={classes.toolbar}>
-
-            <Button className={classes.button}  ><Link color="white" to="/log_in">Log in</Link></Button>
-            <Button><Link  to="/sign_up">Sign Up</Link></Button>
-            <Button><Link to="/tasks">Tasks</Link></Button>
-            <Button className={classes.button}
+            <Button className={classes.button}>
+              <Link color="white" to="/log_in">
+                Log in
+              </Link>
+            </Button>
+            <Button>
+              <Link to="/sign_up">Sign Up</Link>
+            </Button>
+            <Button>
+              <Link to="/tasks">Tasks</Link>
+            </Button>
+            <Button
+              className={classes.button}
               onClick={() => {
                 UserDataService.logout();
                 handleLogout();
@@ -65,7 +72,6 @@ const App = () => {
             </Button>
           </Toolbar>
         </AppBar>
-
       </div>
       <div>
         <Switch>
@@ -81,11 +87,11 @@ const App = () => {
           </Route>
           <Route path="/tasks">
             <Container maxWidth="sm">
-            <ProtectedRoute
-              user={user}
-              handleLogout={handleLogout}
-              component={TaskBuilder}
-            />
+              <ProtectedRoute
+                user={user}
+                handleLogout={handleLogout}
+                component={TaskBuilder}
+              />
             </Container>
           </Route>
         </Switch>

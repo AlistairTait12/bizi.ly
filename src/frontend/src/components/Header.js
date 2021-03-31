@@ -1,16 +1,20 @@
 import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
-import Button from "./Button";
+import MyButton from "./Button";
+import "fontsource-roboto";
+import Typography from "@material-ui/core/Typography";
 
 const Header = ({ title, onAdd, showAdd }) => {
   const location = useLocation();
 
   return (
     <header className="header">
-      <h1>{title}</h1>
+      <Typography variant="h1" component="h2" gutterBottom>
+        {title}
+      </Typography>
       {location.pathname === "/tasks" && (
-        <Button
-          color={showAdd ? "red" : "green"}
+        <MyButton
+          color={showAdd ? "orange" : "lightblue"}
           text={showAdd ? "Close" : "Add"}
           onClick={onAdd}
         />

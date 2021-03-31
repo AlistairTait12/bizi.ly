@@ -4,6 +4,7 @@ import Header from "./Header";
 import Tasks from "./Tasks";
 import AddTask from "./AddTask2";
 import TaskDataService from "../services/task.service.js";
+import { Button, TextField, Typography } from "@material-ui/core";
 
 const TaskBuilder = () => {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -84,7 +85,7 @@ const TaskBuilder = () => {
           path="/tasks"
           exact
           render={(props) => (
-            <>
+            <Typography>
               {showAddTask && <AddTask onAdd={addTask} />}
               {tasks.length > 0 ? (
                 <Tasks
@@ -95,7 +96,7 @@ const TaskBuilder = () => {
               ) : (
                 "No Tasks To Show"
               )}
-            </>
+            </Typography>
           )}
         />
       </div>

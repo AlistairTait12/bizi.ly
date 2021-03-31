@@ -1,25 +1,26 @@
 import PropTypes from "prop-types";
+import { Button } from "@material-ui/core";
 
-const Button = ({ color, text, onClick }) => {
+const MyButton = ({ color, text, onClick }) => {
   return (
-    <button
+    <Button
       onClick={onClick}
       style={{ backgroundColor: color }}
       className="btn"
     >
       {text}
-    </button>
+    </Button>
   );
 };
 
-Button.defaultProps = {
+MyButton.defaultProps = {
   color: "steelblue",
 };
 
-Button.propTypes = {
+MyButton.propTypes = {
   text: PropTypes.string,
   color: PropTypes.string,
   onClick: PropTypes.func,
 };
 
-export default Button;
+export default MyButton;
