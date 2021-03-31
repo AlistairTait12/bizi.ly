@@ -5,15 +5,9 @@ import SignUpForm from "./components/signUpForm.component";
 import TaskBuilder from "./components/TaskBuilder";
 import { AppBar, Button, Toolbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useState, useEffect } from "react";
 // import "bootstrap/dist/css/bootstrap.min.css";
-
-const LogOut = () => {
-  if (localStorage.length > 0) {
-    return <Button onClick={UserDataService.logout}>Log out</Button>;
-  } else {
-    return null;
-  }
-};
 
 const useStyles = makeStyles({
   root: {
@@ -28,6 +22,18 @@ const useStyles = makeStyles({
 
 const App = () => {
   const classes = useStyles();
+  const [user, setUser] = useState(true);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setUser(true);
+  };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    setUser(false);
+  };
+
   return (
     <Router>
       <div>
@@ -36,7 +42,7 @@ const App = () => {
             <Link to="/log_in">Log in</Link>
             <Link to="/sign_up">Sign Up</Link>
             <Link to="/tasks">Tasks</Link>
-            <LogOut />
+            {/* <LogOut /> */}
           </Toolbar>
         </AppBar>
       </div>
@@ -49,7 +55,11 @@ const App = () => {
             <SignUpForm />
           </Route>
           <Route path="/tasks">
-            <TaskBuilder />
+            <ProtectedRoute
+              user={user}
+              handleLogout={handleLogout}
+              component={TaskBuilder}
+            />
           </Route>
         </Switch>
       </div>
