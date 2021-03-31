@@ -1,3 +1,4 @@
+import { useScrollTrigger } from "@material-ui/core";
 import http from "../http-common";
 import authHeader from "./auth.header";
 
@@ -42,7 +43,8 @@ class UserDataService {
   }
 
   test() {
-    return http.get("/test/user", { headers: authHeader() });
+    return http.get("/test/user", { headers: authHeader() })
+    .then((response) => http.post("/achievements/test", response, { headers: authHeader() }));
   }
 
   // delete(id) {
