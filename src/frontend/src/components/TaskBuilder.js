@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Header from "./Header";
-import Footer from "./Footer";
 import Tasks from "./Tasks";
 import AddTask from "./AddTask";
-import About from "./About";
 import TaskDataService from "../services/task.service.js";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const TaskBuilder = () => {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -101,8 +99,6 @@ const TaskBuilder = () => {
             </>
           )}
         />
-        <Route path="/about" component={About} />
-        <Footer />
       </div>
     </Router>
   );
