@@ -1,15 +1,12 @@
+// This can basically go now once all the front end calls are sorted
+
 package com.app.bizily.controller;
 
-import com.app.bizily.model.Achievement;
-import com.app.bizily.security.services.UserDetailsImpl;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

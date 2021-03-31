@@ -1,5 +1,7 @@
 package com.app.bizily.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,17 +12,41 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name="name")
+    private String name;
+
     @Column(name = "text")
     private String text;
 
     @Column(name = "day")
     private String day;
 
-    @Column(name = "reminder")
-    private boolean reminder;
+    @Column(name = "iscomplete")
+    private boolean iscomplete;
 
-    public Task() {
+    @Column(name="userid")
+    private long userid;
 
+    public Task() {}
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(long userid) {
+        this.userid = userid;
     }
 
     public long getId() {
@@ -43,18 +69,25 @@ public class Task {
         this.day = day;
     }
 
-    public boolean isReminder() {
-        return reminder;
+    public boolean isComplete() {
+        return iscomplete;
     }
 
-    public void setReminder(boolean reminder) {
-        this.reminder = reminder;
+    @JsonIgnore
+    public boolean isNotComplete() {
+        return !this.isComplete();
     }
 
-    public Task(long id, String text, String day, boolean reminder) {
+    public void setComplete(boolean complete) {
+        this.iscomplete = complete;
+    }
+
+    public Task(long id, String name, String text, String day, boolean iscomplete, long userid) {
         this.id = id;
+        this.name = name;
         this.text = text;
         this.day = day;
-        this.reminder = reminder;
+        this.iscomplete = iscomplete;
+        this.userid = userid;
     }
 }

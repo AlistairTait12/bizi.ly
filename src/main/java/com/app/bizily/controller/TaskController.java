@@ -2,76 +2,73 @@ package com.app.bizily.controller;
 
 import com.app.bizily.model.Task;
 import com.app.bizily.repository.TaskRepository;
+import com.app.bizily.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
-@RequestMapping("/api")
+@RequestMapping("/api/tasks")
 public class TaskController {
 
     @Autowired
     TaskRepository taskRepository;
 
-    @GetMapping("/tasks")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<List<Task>> getAllTutorials(@RequestParam(required = false) String task) {
+    // this is probably also redundant now
+    @GetMapping("/all")
+    public ResponseEntity<List<Task>> getAllTasks() {
         try {
-            List<Task> tasks = new ArrayList<>();
-            tasks.addAll(taskRepository.findAll());
+            List<Task> tasks = new ArrayList<>(taskRepository.findAll());
             return new ResponseEntity<>(tasks, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-//
-//    @GetMapping("/tasks/{id}")
-//    public ResponseEntity<Task> getTaskById(@PathVariable("id") long id) {
-//        Optional<Task> taskData = taskRepository.findById(id);
-//
-//        if (taskData.isPresent()) {
-//            return new ResponseEntity<>(taskData.get(), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
 
-    @PostMapping("/tasks")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @GetMapping("/currentuser")
+    public ResponseEntity<List<Task>> getAllCurrentUserTasks(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            List<Task> usersTasks = new ArrayList<>(taskRepository.findByUserid(userDetails.getId()));
+            return new ResponseEntity<>(usersTasks, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/add")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         try {
             Task _task = taskRepository
-                    .save(new Task(task.getId(), task.getText(), task.getDay(), task.isReminder()));
+                    .save(new Task(task.getId(), task.getName(), task.getText(), task.getDay(), task.isComplete(), task.getUserid()));
             return new ResponseEntity<>(_task, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-//    @PutMapping("/tasks/{id}")
-//    public ResponseEntity<Task> updateTask(@PathVariable("id") long id, @RequestBody Task task) {
-//        Optional<Task> taskData = taskRepository.findById(id);
-//
-//        if (taskData.isPresent()) {
-//            Task _task = taskData.get();
-//            _task.setTask(task.getTask());
-//            _task.setCompletedBy(task.getCompletedBy());
-//            _task.setCreatedOn(task.getCreatedOn());
-//            _task.setCompleted(task.getCompleted());
-//            _task.setStamp(task.getStamp());
-//            return new ResponseEntity<>(taskRepository.save(_task), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//
-    @DeleteMapping("/tasks/{id}")
+    @PutMapping("/{id}")
+    public ResponseEntity<HttpStatus> updateTask(@PathVariable("id") long id) {
+        Optional<Task> taskData = taskRepository.findById(id);
+
+        if (taskData.isPresent()) {
+            Task _task = taskData.get();
+            _task.setComplete(!_task.isComplete());
+            taskRepository.save(_task);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteTask(@PathVariable("id") long id) {
         try {
             taskRepository.deleteById(id);
@@ -80,29 +77,34 @@ public class TaskController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-//
-//    @DeleteMapping("/tasks")
-//    public ResponseEntity<HttpStatus> deleteAllTasks() {
-//        try {
-//            taskRepository.deleteAll();
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//
-//    }
-//
-//    @GetMapping("/tasks/completed")
-//    public ResponseEntity<List<Task>> findByCompleted() {
-//        try {
-//            List<Task> tasks = taskRepository.findByCompleted(true);
-//
-//            if (tasks.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(tasks, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+
+    @GetMapping("/complete")
+    public ResponseEntity<List<Task>> findCompleteByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            List<Task> tasks = new ArrayList<>(taskRepository.findByUserid(userDetails.getId()));
+            List<Task> completedTasks = tasks.stream()
+                    .filter(Task::isComplete).collect(Collectors.toList());
+            if (tasks.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(completedTasks, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/notcomplete")
+    public ResponseEntity<List<Task>> findNotCompleteByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            List<Task> tasks = new ArrayList<>(taskRepository.findByUserid(userDetails.getId()));
+            List<Task> completedTasks = tasks.stream()
+                    .filter(Task::isNotComplete).collect(Collectors.toList());
+            if (tasks.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(completedTasks, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

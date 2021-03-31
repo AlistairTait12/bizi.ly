@@ -1,7 +1,5 @@
 package com.app.bizily.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -14,16 +12,13 @@ public class Achievement {
 
     @NotBlank
     @Column(name = "name")
-    //@JsonProperty("name")
     private String name;
 
     @Column(name = "userid")
-    //@JsonProperty("userid")
     private long userid;
 
     @NotBlank
     @Column(name = "badge")
-    //@JsonProperty("badge")
     private String badge;
 
     public Achievement() {}
