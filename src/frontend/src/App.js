@@ -31,6 +31,9 @@ const App = () => {
   const classes = useStyles();
   const [user, setUser] = useState(false);
 
+  useEffect(() => {
+    localStorage.length > 0 ? handleLogin() : handleLogout();
+  })
   const handleLogin = () => {
     // e.preventDefault();
     setUser(true);
