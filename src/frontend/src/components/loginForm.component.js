@@ -10,10 +10,11 @@ const MyTextField = ({ placeholder, ...props }) => {
 
   return (
     <TextField
-      placeholder={placeholder}
+      label={placeholder}
       {...field}
       helperText={errorText}
       error={!!errorText}
+      variant={"outlined"}
     />
   );
 };
@@ -25,10 +26,11 @@ const MyPassword = ({ placeholder, ...props }) => {
   return (
     <TextField
       type="password"
-      placeholder={placeholder}
+      label={placeholder}
       {...field}
       helperText={errorText}
       error={!!errorText}
+      variant={"outlined"}
     />
   );
 };
@@ -69,7 +71,7 @@ const LoginForm = (props) => {
               ></MyPassword>
             </div>
             <div>
-              <Button type="submit">Log In</Button>
+              <Button variant="outlined" type="submit">Log In</Button>
             </div>
           </Form>
         )}

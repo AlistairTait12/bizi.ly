@@ -3,7 +3,7 @@ import UserDataService from "./services/user.service";
 import LoginForm from "./components/loginForm.component";
 import SignUpForm from "./components/signUpForm.component";
 import TaskBuilder from "./components/TaskBuilder";
-import { AppBar, Button, Toolbar } from "@material-ui/core";
+import { AppBar, Button, Toolbar, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useState, useEffect } from "react";
@@ -17,7 +17,14 @@ const useStyles = makeStyles({
     color: "white",
     height: 48,
     fontFamily: "arial",
+    verticalAlign: "center"
   },
+  toolbar: {
+    paddingBottom: 10
+  },
+  button: {
+    color: 'white',
+  }
 });
 
 const App = () => {
@@ -37,12 +44,15 @@ const App = () => {
   return (
     <Router>
       <div>
-        <AppBar className={classes.root} position="fixed" position="sticky">
-          <Toolbar>
-            <Link to="/log_in">Log in</Link>
-            <Link to="/sign_up">Sign Up</Link>
-            <Link to="/tasks">Tasks</Link>
-            <Button
+
+          <AppBar className={classes.root} position="fixed" position="sticky">
+
+          <Toolbar className={classes.toolbar}>
+
+            <Button className={classes.button}  ><Link color="white" to="/log_in">Log in</Link></Button>
+            <Button><Link  to="/sign_up">Sign Up</Link></Button>
+            <Button><Link to="/tasks">Tasks</Link></Button>
+            <Button className={classes.button}
               onClick={() => {
                 UserDataService.logout();
                 handleLogout();
@@ -52,11 +62,14 @@ const App = () => {
             </Button>
           </Toolbar>
         </AppBar>
+
       </div>
       <div>
         <Switch>
           <Route path="/log_in">
-            <LoginForm user={user} handleLogin={handleLogin} />
+            <Container maxWidth="sm">
+              <LoginForm user={user} handleLogin={handleLogin} />
+            </Container>
           </Route>
           <Route path="/sign_up">
             <SignUpForm />
