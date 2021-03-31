@@ -75,14 +75,18 @@ const App = () => {
             </Container>
           </Route>
           <Route path="/sign_up">
-            <SignUpForm />
+            <Container maxWidth="sm">
+              <SignUpForm />
+            </Container>
           </Route>
           <Route path="/tasks">
+            <Container maxWidth="sm">
             <ProtectedRoute
               user={user}
               handleLogout={handleLogout}
               component={TaskBuilder}
             />
+            </Container>
           </Route>
         </Switch>
       </div>
