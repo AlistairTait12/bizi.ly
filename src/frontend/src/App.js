@@ -22,10 +22,10 @@ const useStyles = makeStyles({
 
 const App = () => {
   const classes = useStyles();
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(false);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = () => {
+    // e.preventDefault();
     setUser(true);
   };
 
@@ -49,7 +49,7 @@ const App = () => {
       <div>
         <Switch>
           <Route path="/log_in">
-            <LoginForm />
+            <LoginForm user={user} handleLogin={handleLogin} />
           </Route>
           <Route path="/sign_up">
             <SignUpForm />

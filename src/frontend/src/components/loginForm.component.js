@@ -38,7 +38,7 @@ const validationSchema = yup.object({
   password: yup.string().required("required"),
 });
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   return (
     <div>
       <Formik
@@ -47,7 +47,7 @@ const LoginForm = () => {
         onSubmit={(data) => {
           data.username = data.email;
           // console.log(data);
-          UserDataService.login(data);
+          UserDataService.login(data).then(props.handleLogin);
         }}
       >
         {({ values, errors }) => (
