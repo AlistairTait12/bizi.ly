@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import Tasks from "./Tasks";
 import AddTask from "./AddTask";
@@ -12,29 +12,21 @@ const TaskBuilder = () => {
 
   useEffect(() => {
     const getTasks = async () => {
-      const tasksFromServer = await fetchTasks();
-      console.log(fetchTasks());
-      setTasks(tasksFromServer);
-    };
+      const tasks = await getUserNotCompleteTasks();
+      setTasks(tasks);
 
-    getTasks();
+      getTasks();
+    };
   }, []);
 
-  const fetchTasks = async () => {
-    const data = await TaskDataService.getAll();
+  const getUserNotCompleteTasks = async () => {
+    const data = await TaskDataService.getUserNotCompleteTasks();
 
     return data.data;
   };
 
-  const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:8080/api/tasks/${id}`);
-    const data = await res.json();
-
-    return data;
-  };
-
   const addTask = async (task) => {
-    await TaskDataService.create(task)
+    await TaskDataService.add(task)
       .then((response) => {
         setTasks([...tasks, response.data]);
       })
@@ -53,25 +45,14 @@ const TaskBuilder = () => {
       });
   };
 
-  const toggleReminder = async (id) => {
-    const taskToToggle = await fetchTask(id);
-    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
-
-    const res = await fetch(`http://localhost:8080/api/tasks/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(updTask),
-    });
-
-    const data = await res.json();
-
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, reminder: data.reminder } : task
-      )
-    );
+  const markComplete = async (id) => {
+    await TaskDataService.update(id)
+      .then((response) => {
+        setTasks(tasks.filter((task) => task.id !== id));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -84,14 +65,14 @@ const TaskBuilder = () => {
         <Route
           path="/tasks"
           exact
-          render={(props) => (
+          render={() => (
             <>
               {showAddTask && <AddTask onAdd={addTask} />}
               {tasks.length > 0 ? (
                 <Tasks
                   tasks={tasks}
                   onDelete={deleteTask}
-                  onToggle={toggleReminder}
+                  onToggle={markComplete}
                 />
               ) : (
                 "No Tasks To Show"

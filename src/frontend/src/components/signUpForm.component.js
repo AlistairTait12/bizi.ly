@@ -5,7 +5,7 @@ import { TextField, Button } from "@material-ui/core";
 // import { TextField, Button } from "@material-ui/core";
 import * as yup from "yup";
 import UserDataService from "../services/user.service";
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 
@@ -91,7 +91,7 @@ const SignUpForm = () => {
           data.username = data.email;
           data.role = ["user"];
 
-          UserDataService.create(data);
+          UserDataService.signup(data);
         }}
       >
         {({ values, errors }) => (

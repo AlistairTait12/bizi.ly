@@ -1,17 +1,7 @@
-import { useScrollTrigger } from "@material-ui/core";
 import http from "../http-common";
-import authHeader from "./auth.header";
 
 class UserDataService {
-  // getAll() {
-  //   return http.get("/users");
-  // }
-
-  get(id) {
-    return http.get(`/users/${id}`);
-  }
-
-  create(data) {
+  signup(data) {
     return http.post("/auth/signup", data).then((response) => {
       if (response.data.message === "User registered successfully!") {
         this.login(data);
@@ -21,11 +11,7 @@ class UserDataService {
     });
   }
 
-  update(id, data) {
-    return http.put(`/users/${id}`, data);
-  }
-
-  login(data) {
+  signin(data) {
     return http.post("auth/signin", data).then((response) => {
       if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data));
@@ -40,23 +26,6 @@ class UserDataService {
 
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
-  }
-
-  test() {
-    return http.get("/test/user", { headers: authHeader() })
-    .then((response) => http.post("/achievements/test", response, { headers: authHeader() }));
-  }
-
-  // delete(id) {
-  //   return http.delete(`/users/${id}`);
-  // }
-
-  // deleteAll() {
-  //   return http.delete(`/users`);
-  // }
-
-  findByEmail(email) {
-    return http.get(`/users?email=${email}`);
   }
 }
 

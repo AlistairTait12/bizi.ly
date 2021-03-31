@@ -2,32 +2,29 @@ import http from "../http-common";
 import authHeader from "./auth.header";
 
 class TaskDataService {
-  getAll() {
-    return http.get("/tasks", { headers: authHeader() });
+  getUserAllTasks() {
+    return http.get("/tasks/currentuser", { headers: authHeader() });
   }
 
-  get(id) {
-    return http.get(`/tasks/${id}`, { headers: authHeader() });
+  getUserCompleteTasks(){
+    return http.get('tasks/complete', {headers: authHeader()});
   }
 
-  create(data) {
-    return http.post("/tasks", data, { headers: authHeader() });
+  getUserNotCompleteTasks(){
+    return http.get('tasks/notcomplete', {headers: authHeader()}); 
   }
 
-  update(id, data) {
-    return http.put(`/tasks/${id}`, { headers: authHeader() }, data);
+  add(data) {
+    return http.post("/tasks/add", data, { headers: authHeader() });
+  }
+
+  update(id) {
+    return http.put(`/tasks/${id}`, { headers: authHeader() })
+    .then((response) => http.post("/achievements/check", response, { headers: authHeader() }));
   }
 
   delete(id) {
     return http.delete(`/tasks/${id}`, { headers: authHeader() });
-  }
-
-  // deleteAll() {
-  //     return http.delete(`/tasks`);
-  // }
-
-  findByTask(task) {
-    return http.get(`/tasks?task=${task}`, { headers: authHeader() });
   }
 }
 

@@ -22,17 +22,6 @@ public class TaskController {
     @Autowired
     TaskRepository taskRepository;
 
-    // this is probably also redundant now
-    @GetMapping("/all")
-    public ResponseEntity<List<Task>> getAllTasks() {
-        try {
-            List<Task> tasks = new ArrayList<>(taskRepository.findAll());
-            return new ResponseEntity<>(tasks, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/currentuser")
     public ResponseEntity<List<Task>> getAllCurrentUserTasks(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {

@@ -3,7 +3,7 @@ import { Formik, Form, useField } from "formik";
 import { TextField, Button } from "@material-ui/core";
 import * as yup from "yup";
 import UserDataService from "../services/user.service";
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     buttonColor: {
@@ -69,7 +69,7 @@ const LoginForm = (props) => {
         onSubmit={(data) => {
           data.username = data.email;
           // console.log(data);
-          UserDataService.login(data).then(props.handleLogin);
+          UserDataService.signin(data).then(props.handleLogin);
         }}
       >
         {({ values, errors }) => (
