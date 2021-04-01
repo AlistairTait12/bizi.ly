@@ -8,6 +8,14 @@ import UserDataService from "../services/user.service";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import TaskDataService from "../services/task.service";
+import "date-fns";
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 const useStyles = makeStyles({
   buttonColor: {
@@ -38,10 +46,32 @@ const MyTextField = ({ placeholder, ...props }) => {
   );
 };
 
+const MyDateField = ({ placeholder, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+  const classes = useStyles();
+
+  return (
+    <TextField
+      name="day"
+      label="due date"
+      type="date"
+      defaultValue="2017-05-24"
+      className={classes.inputField}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+      InputLabelProps={{
+        shrink: true,
+      }}
+    />
+  );
+};
+
 //yup validation schema
-const validationSchema = yup.object({
-  name: yup.string().required("Please add a task before submitting"),
-});
+// const validationSchema = yup.object({
+//   name: yup.string().required("Please add a task before submitting"),
+// });
 
 //form component
 const AddTask = ({ onAdd }) => {
@@ -57,10 +87,11 @@ const AddTask = ({ onAdd }) => {
           text: "",
           day: "",
         }}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
         onSubmit={(data) => {
           console.log(data);
           const id = UserDataService.getCurrentUser();
+          console.log(data.day);
           data.userid = id.id;
           console.log(data);
           onAdd(data);
@@ -89,12 +120,23 @@ const AddTask = ({ onAdd }) => {
             </div>
             {/*Change to date picker*/}
             <div>
-              <MyTextField
+              <MyDateField
+                label="due date"
+                type="date"
+                name="day"
+                defaultValue="2017-05-24"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                as={TextField}
+              />
+              {/* <MyTextField
                 placeholder="Day"
                 name="day"
                 type="input"
                 as={TextField}
-              ></MyTextField>
+              ></MyTextField> */}
             </div>
             <div>
               <Button

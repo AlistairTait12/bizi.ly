@@ -8,7 +8,7 @@ const Header = ({ title, onAdd, showAdd }) => {
   const location = useLocation();
 
   return (
-    <header className="header">
+    <div className="header">
       <Typography variant="h1" component="h2" gutterBottom>
         {title}
       </Typography>
@@ -19,7 +19,7 @@ const Header = ({ title, onAdd, showAdd }) => {
           onClick={onAdd}
         />
       )}
-    </header>
+    </div>
   );
 };
 
