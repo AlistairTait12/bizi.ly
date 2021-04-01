@@ -1,28 +1,26 @@
 import React from "react";
 import { Formik, Form, useField } from "formik";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Typography } from "@material-ui/core";
 import * as yup from "yup";
 import UserDataService from "../services/user.service";
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
-    buttonColor: {
-        backgroundColor: "#FE6B8B",
-        boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-        color: "white",
-        marginTop: 30
-    },
-    inputField: {
-        marginTop: 10,
-    }
+  buttonColor: {
+    backgroundColor: "#FE6B8B",
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    color: "white",
+    marginTop: 30,
+  },
+  inputField: {
+    marginTop: 10,
+  },
 });
-
-
 
 const MyTextField = ({ placeholder, ...props }) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
-    const classes = useStyles();
+  const classes = useStyles();
 
   return (
     <TextField
@@ -39,7 +37,7 @@ const MyTextField = ({ placeholder, ...props }) => {
 const MyPassword = ({ placeholder, ...props }) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
-    const classes = useStyles();
+  const classes = useStyles();
 
   return (
     <TextField
@@ -60,9 +58,10 @@ const validationSchema = yup.object({
 });
 
 const LoginForm = (props) => {
-    const classes = useStyles();
+  const classes = useStyles();
   return (
     <div>
+      <Typography variant="h3">Log in</Typography>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={validationSchema}
@@ -80,7 +79,6 @@ const LoginForm = (props) => {
                 name="email"
                 type="input"
                 as={TextField}
-
               ></MyTextField>
             </div>
             <div>
@@ -92,7 +90,13 @@ const LoginForm = (props) => {
               ></MyPassword>
             </div>
             <div>
-              <Button className={classes.buttonColor} variant="outlined" type="submit">Log In</Button>
+              <Button
+                className={classes.buttonColor}
+                variant="outlined"
+                type="submit"
+              >
+                Log In
+              </Button>
             </div>
           </Form>
         )}

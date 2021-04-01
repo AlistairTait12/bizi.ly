@@ -62,7 +62,11 @@ public class Task {
     }
 
     public String getDay() {
-        return day;
+        String unformatted = this.day;
+        String date = unformatted.substring(8, 10);
+        String month = unformatted.substring(5, 7);
+        String year = unformatted.substring(0, 4);
+        return date + "/" + month + "/" + year;
     }
 
     public void setDay(String day) {
