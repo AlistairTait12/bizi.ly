@@ -29,25 +29,34 @@ public class AchievementController {
 
     @PostMapping("/check")
     public HttpStatus achievementCheck(@AuthenticationPrincipal UserDetailsImpl userDetails)  {
-        List<Task> tasks = new ArrayList<>(taskRepository.findByUserid(userDetails.getId()));
+
+        checkAchievement(userDetails.getId(), 1, "Gettin' Bizi With It!","/src/frontend/badges/one_ach.png" );
+        checkAchievement(userDetails.getId(), 5, "In the pipe, 5 by 5!","/src/frontend/badges/five_ach.png" );
+        checkAchievement(userDetails.getId(), 7, "Lucky number s(l)even!","/src/frontend/badges/seven_ach.png" );
+        checkAchievement(userDetails.getId(), 10,"Bizi beaver!","/src/frontend/badges/ten_ach.png" );
+        checkAchievement(userDetails.getId(), 12,"Leave some for the rest of us!", "/src/frontend/badges/eleven_ach.png");
+
+        return HttpStatus.OK;
+    }
+
+    public void checkAchievement(long userid, int completed, String achievement, String badge) {
+        List<Task> tasks = new ArrayList<>(taskRepository.findByUserid(userid));
         List<Task> filterCompleteTasks = tasks.stream()
                 .filter(Task::isComplete).collect(Collectors.toList());
         int completedTasks = filterCompleteTasks.size();
-        if (completedTasks == 1) {
+
+        List<Achievement> achievements = new ArrayList<>(achievementRepository.findByUserid(userid));
+
+        if ((completedTasks >= completed) && !containsAchievement(achievements, achievement)) {
             achievementRepository
-                    .save(new Achievement("Gettin' Bizi With It!",
-                            userDetails.getId(),
-                            "/src/frontend/badges/bizi_ach.png"));
-            return HttpStatus.OK;
-        } else if (completedTasks == 5) {
-            achievementRepository
-                    .save(new Achievement("In the pipe, 5 by 5!",
-                            userDetails.getId(),
-                            "/src/frontend/badges/five_ach.png"));
-            return HttpStatus.OK;
-        } else {
-            return HttpStatus.NO_CONTENT;
+                    .save(new Achievement(achievement,
+                            userid,
+                            badge));
         }
+    }
+
+    public boolean containsAchievement(final List<Achievement> list, final String name){
+        return list.stream().anyMatch(o -> o.getName().equals(name));
     }
 
     @GetMapping("/currentuser")
