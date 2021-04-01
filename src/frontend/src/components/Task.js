@@ -1,4 +1,4 @@
-import { FaTimes } from "react-icons/fa";
+import {FaCheck, FaTimes} from "react-icons/fa";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -41,9 +41,13 @@ const Task = ({ task, onDelete, onToggle }) => {
       <Card className={classes.cardSpacing} variant="outlined">
         <Typography className={classes.underline} variant="h5">
           {task.name}{" "}
-          <FaTimes
-            style={{ color: "red", cursor: "pointer" }}
+          <FaCheck
+            style={{ color: "green", cursor: "pointer" }}
             onClick={() => onDelete(task.id)}
+          />
+          <FaTimes
+              style={{ color: "red", cursor: "pointer" }}
+              onClick={() => onDelete(task.id)}
           />
         </Typography>
         <Typography>{task.text}</Typography>
