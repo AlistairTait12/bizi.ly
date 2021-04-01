@@ -40,7 +40,7 @@ const MyTextField = ({ placeholder, ...props }) => {
 
 //yup validation schema
 const validationSchema = yup.object({
-  text: yup.string().required("Please add a task before submitting"),
+  name: yup.string().required("Please add a task before submitting"),
 });
 
 //form component
@@ -53,6 +53,7 @@ const AddTask = ({ onAdd }) => {
     <div>
       <Formik
         initialValues={{
+          name: "",
           text: "",
           day: "",
         }}
@@ -71,7 +72,16 @@ const AddTask = ({ onAdd }) => {
           <Form>
             <div>
               <MyTextField
-                placeholder="Task"
+                placeholder="Title"
+                name="name"
+                type="input"
+                as={TextField}
+              ></MyTextField>
+            </div>
+            <div></div>
+            <div>
+              <MyTextField
+                placeholder="Description"
                 name="text"
                 type="input"
                 as={TextField}

@@ -26,6 +26,9 @@ const useStyles = makeStyles({
     margin: 10,
     padding: 10,
   },
+  underline: {
+    borderBottom: "1px solid lightgrey",
+  },
 });
 
 const Task = ({ task, onDelete, onToggle }) => {
@@ -36,13 +39,14 @@ const Task = ({ task, onDelete, onToggle }) => {
       onDoubleClick={() => onToggle(task.id)}
     >
       <Card className={classes.cardSpacing} variant="outlined">
-        <Typography variant="h4">
-          {task.text}{" "}
+        <Typography className={classes.underline} variant="h5">
+          {task.name}{" "}
           <FaTimes
             style={{ color: "red", cursor: "pointer" }}
             onClick={() => onDelete(task.id)}
           />
         </Typography>
+        <Typography>{task.text}</Typography>
         <Typography>{task.day}</Typography>
       </Card>
     </div>
